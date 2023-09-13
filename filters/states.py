@@ -11,3 +11,7 @@ class RegistrationCustomer(StatesGroup):
 
 class GetSum(StatesGroup):
     credit_sum = State()
+
+
+class GeTern(StatesGroup):
+    credit_tern = State()

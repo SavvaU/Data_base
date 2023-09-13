@@ -17,7 +17,8 @@ class DBHelper:
         query = """ INSERT INTO customers(name, passport_number) VALUES (?,?)"""
         self._sql_query(query,name, passport)
 
-
+    def add_credit(self, passport:int, sum:int, tern:int):
+        return
     def test(self):
         query = """SELECT * FROM customers"""
         data = self._sql_query(query)
@@ -25,7 +26,7 @@ class DBHelper:
 
     def get_cust_by_passport(self, passport:int):
         query = """SELECT * FROM customers
-                WHERE passport_number = ?"""
+               WHERE passport_number = ?"""
         data = self._sql_query(query, passport)
         return data
 
@@ -41,9 +42,13 @@ class DBHelper:
         return True
 
     def is_this_customer_in_db(self,passport:int):
-        queue = """SELECT * FROM customers WERE passport = ?"""
-        data = self._sql_query(queue,int(passport))
-        return data
+        #queue = """SELECT * FROM customers WERE passport_number = ?"""
+        #data = self._sql_query(queue,int(passport))
+        return True
+
+    def is_enough_maney(self, sum:int):
+        return True
+
 def create_db() -> DBHelper:
     if not hasattr(create_db, 'db'):
         setattr(create_db, 'db', DBHelper())
