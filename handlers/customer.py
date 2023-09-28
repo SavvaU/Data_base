@@ -11,20 +11,23 @@ db = create_db()
 
 @router.message(Command(commands="reg"))
 async def customer_1(msg: Message, state=FSMContext):
+    await state.clear()
     await msg.answer("Напиши свой паспорт")
     await state.set_state(RegistrationCustomer.passport_number)
 
 
 @router.message(RegistrationCustomer.passport_number)
-async def customer_2(msg: Message):
-
+async def customer_2(msg: Message, state=FSMContext):
     try:
-        if not db.get_cust_by_passport(passport=int(msg.text)):
-            db.add_customer(name=msg.from_user.first_name, passport=int(msg.text))
-            await msg.answer("OK")
+        if not db.get_cust_by_passport(int(msg.text)):
+            db.add_customer(msg.from_user.first_name, int(msg.text))
+            await msg.answer("Регистрация прошла успешно!")
+            await state.clear()
         else:
             await msg.answer("Акаунт уже зарегистрирован!")
+            await state.clear()
     except ValueError:
-        await msg.answer("Jui govna")
+        await msg.answer("Номер пасспорта введен некорректно!")
+        await state.set_state(RegistrationCustomer.passport_number)
 
 
